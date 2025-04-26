@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
+        Movie Recommendation System
+      {% endblock %}
+    </title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css" />
+    {% block css %}
+
+    {% endblock %}
+  </head>
+  <body class="bg-gray-100">
+    {% block navbar %}
+
+    {% endblock %}
+    <main class="min-h-dvh mx-auto">
+      {% block content %}
+
+      {% endblock %}
+    </main>
+    {% block footer %}
+
+    {% endblock %}
+    {% block js %}
+
+    {% endblock %}
+  </body>
+</html>

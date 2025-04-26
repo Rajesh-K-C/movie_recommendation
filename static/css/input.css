@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  /* --color-primary: #0004ff; */
+  --color-primary: #3B82F6;
+  --color-secondary: #10B981;
+  --color-dark: #1F2937;
+}
+
+@layer components {
+  /* .btn-primary {
+            border-radius: calc(infinity * 1px);
+            background-color: var(--color-violet-500);
+            padding-inline: --spacing(5);
+            padding-block: --spacing(2);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-white);
+            box-shadow: var(--shadow-md);
+    
+            &:hover {
+                @media (hover: hover) {
+                    background-color: var(--color-violet-700);
+                }
+            }
+        } */
+
+  .btn-primary {
+    @apply bg-primary py-2 px-4 rounded cursor-pointer text-white hover:bg-red-700;
+  }
+
+  .btn-sm {
+    @apply py-1 px-2 text-sm;
+  }
+
+  .mobile-nav-link {
+    @apply block font-bold hover:text-primary hover:bg-gray-200 rounded-lg py-2 px-4;
+  }
+
+  .left-heading {
+    @apply text-2xl font-bold relative after:absolute after:-bottom-1 after:left-0 after:h-1 after:w-8 after:bg-primary my-2;
+  }
+
+  .form-input {
+    @apply border-[1px] outline-none border-gray-300 rounded-sm p-1 bg-gray-50 focus:border-primary focus:shadow;
+  }
+
+  .errorlist {
+    @apply text-red-500
+  }
+}

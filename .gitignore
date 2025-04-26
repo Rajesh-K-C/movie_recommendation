@@ -1,0 +1,55 @@
+# ========== PYTHON / DJANGO ==========
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Django migrations
+**/migrations/
+!*/migrations/__init__.py
+
+# Secrets and configs
+.env
+*.env
+
+# ========== Frontend ==========
+node_modules/
+dist/
+build/
+*.log
+
+# ========== SYSTEM / OS FILES ==========
+.DS_Store
+Thumbs.db
+
+# ========== IDE / EDITOR FILES ==========
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ========== COVERAGE / TESTING ==========
+coverage/
+htmlcov/
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.mocha.json
+jest-test-results.json
+junit-*.xml
+
+# ========== OTHER ==========
+*.bak
+*.tmp
