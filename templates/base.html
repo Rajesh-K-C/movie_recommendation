@@ -17,7 +17,7 @@
 
     {% endblock %}
   </head>
-  <body class="bg-gray-100">
+  <body class="bg-black">
     {% block navbar %}
 
     {% endblock %}
@@ -27,7 +27,8 @@
       {% endblock %}
     </main>
     {% block footer %}
-
+      {% include 'includes/footer.html' %}
+      <script src="{% static 'js/footer.js' %}"></script>
     {% endblock %}
     {% block js %}
 
