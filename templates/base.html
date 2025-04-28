@@ -19,9 +19,10 @@
   </head>
   <body class="bg-black text-white">
     {% block navbar %}
-
+      {% include 'includes/navbar.html' %}
+      <script src="{% static 'js/navbar.js' %}"></script>
     {% endblock %}
-    <main class="min-h-dvh mx-auto">
+    <main class="min-h-dvh w-full bg-secondary">
       {% block content %}
 
       {% endblock %}
