@@ -53,3 +53,5 @@ junit-*.xml
 # ========== OTHER ==========
 *.bak
 *.tmp
+
+media/
