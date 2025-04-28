@@ -1,0 +1,1 @@
+(document.getElementById("this-year") as HTMLSpanElement).innerText = new Date().getFullYear().toString();
