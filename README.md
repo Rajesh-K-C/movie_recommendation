@@ -35,6 +35,12 @@ A full-stack Movie Recommendation System that allows users to discover movies ba
 
 ## 🛠️ Installation
 
+## Prerequisites
+- Python >=3.12
+- Node.js and npm
+
+### Steps
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/Rajesh-K-C/movie_recommendation.git
@@ -97,6 +103,13 @@ A full-stack Movie Recommendation System that allows users to discover movies ba
 6. Start the Tailwind CLI build process
     ```bash
     npm run watch:css
+    ```
+7. Install TypeScript(Optional)
+    ```bash
+    # install TypeScript
+    npm install -g typescript
+    # compile TypeScript
+    tsc --watch
     ```
 ## 🙌 Contributing
 Contributions are welcome! <br/>
