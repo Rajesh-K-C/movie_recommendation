@@ -60,7 +60,7 @@ class WatchHistory(models.Model):
 class View(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="views", null=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="views")
-    user_ip = models.IPAddressField()
+    user_ip = models.GenericIPAddressField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
