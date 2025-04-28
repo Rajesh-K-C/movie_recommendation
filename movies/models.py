@@ -32,6 +32,7 @@ class Movie(models.Model):
     total_likes = models.PositiveIntegerField(default=0)
     url = models.URLField(unique=True)
     poster = models.ImageField(upload_to='posters/')
+    duration = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     genres = models.ManyToManyField(Genre, related_name='movies')
