@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
 
 class Language(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -41,6 +42,19 @@ class Movie(models.Model):
     class Meta:
         db_table = 'movies'
         verbose_name_plural = 'movies'
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old_instance = Movie.objects.get(pk=self.pk)
+            if old_instance and old_instance.poster != self.poster:
+                if os.path.isfile(old_instance.poster.path):
+                    os.remove(old_instance.poster.path)
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if os.path.isfile(self.poster.path):
+            os.remove(self.poster.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.title
