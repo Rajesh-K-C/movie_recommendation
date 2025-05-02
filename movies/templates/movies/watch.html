@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+  {{ movie.title }}
+{% endblock %}
+{% block content %}
+  <section class="max-w-7xl mx-auto px-4 py-6">
+    <div class="aspect-w-16 aspect-h-9 w-full aspect-video mb-6">
+      <iframe class="aspect-video w-full" src="{{ movie.url }}" title="Movie Trailer" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+      <div class="flex-1">
+        <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
+
+        <div class="flex items-center gap-4 text-gray-400 text-sm mb-4">
+          <span class="flex items-center gap-1"><i class="fa fa-clock"></i> {{ movie.duration }}</span>
+          <span class="flex items-center gap-1"><i class="fa fa-language"></i> {{ movie.language }}</span>
+        </div>
+        {% comment %}Genres{% endcomment %}
+        <div class="flex flex-wrap gap-2 mb-4">
+          {% for genre in movie.genres.all %}
+            <span class="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">{{ genre.name }}</span>
+          {% endfor %}
+        </div>
+
+        <p class="text-gray-300 mb-6">{{ movie.description }}</p>
+      </div>
+    </div>
+  </section>
+  <section class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between space-x-4">
+      <h2 class="text-2xl font-bold mb-4">Similar Movies</h2>
+    </div>
+    <div class="flex flex-wrap gap-4">
+      {% for movie in similar_movies %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+        {% include 'components/movie_card.html' %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

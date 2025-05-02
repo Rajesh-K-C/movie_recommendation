@@ -25,6 +25,7 @@ admin.site.site_title = "Movie Recommendation System"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls")),
+    path("", include("movies.urls")),
 ]
 
 
