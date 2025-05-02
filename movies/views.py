@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views import generic
 from movies.models import Movie
 from movie_recommendation.utils import format_minutes
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class WatchView(generic.DetailView):
+class WatchView(LoginRequiredMixin, generic.DetailView):
     model = Movie
     template_name = "movies/watch.html"
 

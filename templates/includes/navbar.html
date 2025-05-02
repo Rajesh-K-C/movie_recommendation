@@ -20,7 +20,7 @@
         <a href="#" class="hover:text-primary transition">My List</a>
       </li>
       <li>
-        <form method="post" accept="#">
+        <form action="{% url 'logout' %}" method="post">
           {% csrf_token %}
           <button type="submit" class="hover:text-primary transition cursor-pointer">Logout</button>
         </form>
@@ -70,7 +70,7 @@
   <a href="#" class="hover:text-red-500">Popular</a>
   <a href="#" class="hover:text-red-500">Genres</a>
   <a href="#" class="hover:text-red-500">My List</a>
-  <form action="#" method="post">
+  <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit" class="hover:text-red-500 cursor-pointer">Logout</button>
   </form>
