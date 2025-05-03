@@ -13,3 +13,8 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
         context["movie"].duration = format_minutes(context["movie"].duration)
         context["similar_movies"] = Movie.objects.exclude(id=self.object.id)[:14]
         return context
+
+class PopularMoviesView(LoginRequiredMixin, generic.ListView):
+    model = Movie
+    queryset = Movie.objects.prefetch_related("genres", "language").order_by("-pk")
+    template_name = "movies/popular_movies.html"
