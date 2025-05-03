@@ -17,4 +17,9 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
 class PopularMoviesView(LoginRequiredMixin, generic.ListView):
     model = Movie
     queryset = Movie.objects.prefetch_related("genres", "language").order_by("-pk")
-    template_name = "movies/popular_movies.html"
+    template_name = "movies/movie_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Popular Movies"
+        return context
