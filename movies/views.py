@@ -46,3 +46,13 @@ class MovieByGenreView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = f"{self.genre.name} Movies"
         return context
+
+class NewMovieListView(LoginRequiredMixin, generic.ListView):
+    model = Movie
+    template_name = "movies/movie_list.html"
+    queryset = Movie.objects.order_by("-pk")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "New Releases"
+        return context

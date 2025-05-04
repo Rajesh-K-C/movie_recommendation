@@ -8,9 +8,15 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    recent_movies = Movie.objects.prefetch_related("language", "genres").order_by("-created_at")[:7]
+    recent_movies = Movie.objects.prefetch_related("language", "genres").order_by("-created_at")[:8]
+    if len(recent_movies) == 8:
+        recent_movies = recent_movies[:7]
+        new_more = True
+    else:
+        new_more = False
     context = {
-        "recent_movies": recent_movies
+        "recent_movies": recent_movies,
+        "new_more": new_more,
     }
     return render(request, "core/home.html", context)
 
