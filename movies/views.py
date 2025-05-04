@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from movies.models import Movie, Genre
+from movies.models import Movie, Genre, MyList
 from movie_recommendation.utils import format_minutes
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -55,4 +55,19 @@ class NewMovieListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "New Releases"
+        return context
+
+class MyListMovieListView(LoginRequiredMixin, generic.ListView):
+    model = MyList
+    template_name = "movies/movie_list.html"
+
+    def get_queryset(self):
+        qs =  super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "My List"
+        context["movie_list"] = [mylist.movie for mylist in context["mylist_list"]]
         return context

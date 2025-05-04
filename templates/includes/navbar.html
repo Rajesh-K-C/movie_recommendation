@@ -17,7 +17,7 @@
         <a href="{% url 'movie_genre_list' %}" class="hover:text-primary transition">Genres</a>
       </li>
       <li>
-        <a href="#" class="hover:text-primary transition">My List</a>
+        <a href="{% url 'my_list' %}" class="hover:text-primary transition">My List</a>
       </li>
       <li>
         <form action="{% url 'logout' %}" method="post">
@@ -69,7 +69,7 @@
   <a href="{% url 'home' %}" class="hover:text-red-500">Home</a>
   <a href="{% url 'popular_movies' %}" class="hover:text-red-500">Popular</a>
   <a href="{% url 'movie_genre_list' %}" class="hover:text-red-500">Genres</a>
-  <a href="#" class="hover:text-red-500">My List</a>
+  <a href="{% url 'my_list' %}" class="hover:text-red-500">My List</a>
   <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit" class="hover:text-red-500 cursor-pointer">Logout</button>

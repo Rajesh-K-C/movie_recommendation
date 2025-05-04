@@ -5,7 +5,7 @@
 {% block content %}
   <section class="max-w-7xl mx-auto px-4 py-6">
     <div class="aspect-w-16 aspect-h-9 w-full aspect-video mb-6">
-      <iframe class="aspect-video w-full" src="{{ movie.url }}" title="Movie Trailer" frameborder="0" allowfullscreen></iframe>
+      <iframe class="aspect-video w-full" src="{{ movie.url }}" title="{{ movie.title }}" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-8">

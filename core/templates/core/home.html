@@ -7,7 +7,7 @@
     <div class="flex justify-between space-x-4">
       <h2 class="text-2xl font-bold mb-4">New Releases</h2>
       {% if new_more %}
-        <a href="#" class="text-primary"><span class="hover:underline">See all</span> <i class="fa-solid fa-angle-right"></i></a>
+        <a href="{% url 'new_releases' %}" class="text-primary"><span class="hover:underline">See all</span> <i class="fa-solid fa-angle-right"></i></a>
       {% endif %}
     </div>
     {% include 'components/movie_card_row.html' with movies=recent_movies %}
