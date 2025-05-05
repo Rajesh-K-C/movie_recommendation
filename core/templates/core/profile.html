@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Profile - {{ user }}
+{% endblock %}
+
+{% block content %}
+  <section class="max-w-7xl mx-auto min-h-screen flex items-center justify-center text-white px-4">
+    <div class="w-full max-w-xl bg-gray-800 p-4 sm:p-8 rounded-2xl shadow-xl">
+      {% for message in messages %}
+        <p class="{% if 'success' in message.tags %}
+            bg-green-200 text-green-700
+          {% else %}
+            bg-red-200 text-red-800
+          {% endif %} text-sm p-3 rounded mb-4 text-center">{{ message }}</p>
+      {% endfor %}
+
+      <h2 class="text-2xl font-semibold mb-3 sm:mb-6 text-center">Update Profile</h2>
+
+      <form method="POST" class="space-y-5">
+        {% csrf_token %}
+        {% for field in form %}
+          <div>
+            <label for="{{ field.id_for_label }}" class="block mb-1 text-sm text-gray-300 font-medium">{{ field.label }} <span class="text-red-500">*</span></label>
+            {{ field }}
+            {% if field.errors %}
+              <p class="text-red-400 text-sm mt-1">{{ field.errors.0 }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="w-full bg-primary hover:bg-red-700 transition px-4 py-2 rounded-lg font-semibold text-white">Update</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block footer %}
+  <!-- Add footer if required -->
+{% endblock %}

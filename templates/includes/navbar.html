@@ -43,7 +43,7 @@
       <div class="relative">
         <button id="profileBtn" class="h-8 w-8 rounded-full hover:ring-2 ring-primary transition bg-primary flex justify-center items-center text-xl font-bold font-serif">{{ request.user.first_name|default:request.user.username|first|upper }}</button>
         <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-40 bg-black border border-gray-800 rounded-lg shadow-lg z-40" x-transition>
-          <a href="#" class="block px-4 py-2 hover:bg-gray-800 rounded-lg">Profile</a>
+          <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-800 rounded-lg">Profile</a>
           <a href="#" class="block px-4 py-2 hover:bg-gray-800 rounded-lg">Change Password</a>
         </div>
       </div>

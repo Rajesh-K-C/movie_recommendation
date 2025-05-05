@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from movies.models import Movie
 from django.contrib.auth import login
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ProfileUpdateForm
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.views.generic import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required
 def home(request):
@@ -42,3 +45,24 @@ class UserRegistrationView(CreateView):
         user.save()
         login(self.request, user)
         return redirect('home')
+    
+class ProfileView(LoginRequiredMixin, FormView):
+    template_name = "core/profile.html"
+    form_class = ProfileUpdateForm
+    success_url = "/profile/"
+
+    def get_initial(self):
+        return {
+            'first_name': self.request.user.first_name,
+            'last_name': self.request.user.last_name,
+            'email': self.request.user.email,
+        }
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.email = form.cleaned_data['email']
+        user.save()
+        messages.success(self.request, "Profile updated successfully.")
+        return super().form_valid(form)

@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
-from django.core.validators import MinLengthValidator
+from django.core.validators import MinLengthValidator, RegexValidator
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -24,3 +24,45 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class ProfileUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=30,
+        required=True,
+        label="First Name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your first name',
+            'class': 'w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary',
+        }),
+        validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'Only letters are allowed.'),
+            MinLengthValidator(2)
+        ]
+    )
+
+    last_name = forms.CharField(
+        max_length=30,
+        required=True,
+        label="Last Name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your last name',
+            'class': 'w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary',
+        }),
+        validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'Only letters are allowed.'),
+            MinLengthValidator(2)
+        ]
+    )
+
+    email = forms.EmailField(
+        required=True,
+        label="Email Address",
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Enter your email',
+            'class': 'w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary',
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
