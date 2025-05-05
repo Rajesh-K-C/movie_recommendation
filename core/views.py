@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from movies.models import Movie
 from django.contrib.auth import login
-from .forms import UserRegistrationForm, ProfileUpdateForm
+from .forms import UserRegistrationForm, ProfileUpdateForm, CustomPasswordChangeForm
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 
 @login_required
 def home(request):
@@ -66,3 +67,8 @@ class ProfileView(LoginRequiredMixin, FormView):
         user.save()
         messages.success(self.request, "Profile updated successfully.")
         return super().form_valid(form)
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    template_name = "core/change_password.html"
+    form_class = CustomPasswordChangeForm
+    success_url = "/change-password/"

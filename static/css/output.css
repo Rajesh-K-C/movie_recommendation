@@ -30,6 +30,7 @@
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-md: 28rem;
+    --container-lg: 32rem;
     --container-xl: 36rem;
     --container-7xl: 80rem;
     --text-sm: 0.875rem;
@@ -341,6 +342,9 @@
   }
   .max-w-\[75rem\] {
     max-width: 75rem;
+  }
+  .max-w-lg {
+    max-width: var(--container-lg);
   }
   .max-w-md {
     max-width: var(--container-md);
