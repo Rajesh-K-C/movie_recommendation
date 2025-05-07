@@ -29,7 +29,7 @@
     {% comment %}Right: Search + Profile + Hamburger icon{% endcomment %}
     <div class="flex items-center gap-4">
       {% comment %}Search{% endcomment %}
-      <form method="get" accept="#" class="relative hidden md:block">
+      <form method="get" action="{% url 'search' %}" class="relative hidden md:block">
         <label for="search">
           <input type="text" id="search" name="search" placeholder="Search" class="bg-gray-800 text-white text-sm rounded-full px-4 py-1 pl-10 focus:outline-none focus:ring-2 focus:ring-primary" required />
           <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -63,7 +63,7 @@
 {% comment %}Mobile Menu{% endcomment %}
 <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-black text-white py-6 flex-col gap-6 items-center text-lg z-30">
   {% comment %}Mobile Search{% endcomment %}
-  <form method="get" accept="#" class="relative w-4/5">
+  <form method="get" action="{% url 'search' %}" class="relative w-4/5">
     <label for="mobile-search">
       <input type="text" id="mobile-search" name="search" placeholder="Search" class="bg-secondary text-white text-sm rounded-full px-4 py-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-primary" />
       <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">

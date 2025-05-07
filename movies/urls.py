@@ -9,4 +9,5 @@ urlpatterns = [
     path("new-releases/", views.NewMovieListView.as_view(), name="new_releases"),
     path("my-list/", views.MyListMovieListView.as_view(), name="my_list"),
     path("watch-history/", views.WatchHistoryMovieListView.as_view(), name="watch_history"),
+    path("", views.SearchMovieListView.as_view(), name="search"),
 ]

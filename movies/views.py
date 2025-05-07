@@ -86,3 +86,23 @@ class WatchHistoryMovieListView(LoginRequiredMixin, generic.ListView):
         context["title"] = "Watch History"
         context["movie_list"] = [mylist.movie for mylist in context["object_list"]]
         return context
+
+class SearchMovieListView(LoginRequiredMixin, generic.ListView):
+    model = Movie
+    template_name = "movies/movie_list.html"
+
+    def get_queryset(self):
+        self.q = self.request.GET.get("search", "").strip()
+        qs = super().get_queryset()
+        if self.q:
+            return qs.filter(title__icontains=self.q)
+        return qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.q)
+        if self.q:
+            context["title"] = f"Search: {self.q}"
+        else:
+            context["title"] = "Search"
+        return context
