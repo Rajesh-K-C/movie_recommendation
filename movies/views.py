@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from movies.models import Movie, Genre, MyList
+from movies.models import Movie, Genre, MyList, WatchHistory
 from movie_recommendation.utils import format_minutes
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -70,4 +70,19 @@ class MyListMovieListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = "My List"
         context["movie_list"] = [mylist.movie for mylist in context["mylist_list"]]
+        return context
+
+class WatchHistoryMovieListView(LoginRequiredMixin, generic.ListView):
+    model = WatchHistory
+    template_name = "movies/movie_list.html"
+    
+    def get_queryset(self):
+        qs =  super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Watch History"
+        context["movie_list"] = [mylist.movie for mylist in context["object_list"]]
         return context
