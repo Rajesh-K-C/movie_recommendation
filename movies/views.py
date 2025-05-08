@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.views import generic
-from movies.models import Movie, Genre, MyList, WatchHistory
+from django.views import generic, View
+from movies.models import Movie, Genre, MyList, WatchHistory, Like
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
+import json
 
 class WatchView(LoginRequiredMixin, generic.DetailView):
     model = Movie
@@ -10,6 +12,9 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["similar_movies"] = Movie.objects.exclude(id=self.object.id)[:14]
+        context["like"] = False
+        if Like.objects.filter(user=self.request.user, movie=context["movie"]):
+            context['like']=True
         return context
 
 class PopularMoviesView(LoginRequiredMixin, generic.ListView):
@@ -104,3 +109,26 @@ class SearchMovieListView(LoginRequiredMixin, generic.ListView):
         else:
             context["title"] = "Search"
         return context
+    
+class LikeMovie(View):
+    def post(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({"error": "User not authenticated"}, status=401)
+        try:
+            data = json.loads(request.body)
+            id = data["id"]
+            if not isinstance(id, int):
+                return JsonResponse({"error": "Invalid id"}, status=400)
+            try:
+                movie = Movie.objects.get(pk=id)
+            except Movie.DoesNotExist:
+                return JsonResponse({"error": "Movie not found"}, status=404)
+            like, created = Like.objects.get_or_create(user=user, movie=movie)
+            if not created:
+                like.delete()
+                return JsonResponse({"status": False, "id": id})
+            else:
+                return JsonResponse({"status": True, "id": id})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid data"}, status=400)

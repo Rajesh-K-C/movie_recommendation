@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
   {{ movie.title }}
+{% endblock %}
+{% block metadata %}
+  <meta name="csrf-token" content="{{ csrf_token }}" />
 {% endblock %}
 {% block content %}
   <section class="max-w-7xl mx-auto px-4 py-6">
@@ -16,9 +20,17 @@
           <span class="flex items-center gap-1"><i class="fa fa-clock"></i> {{ movie.duration_formatted }}</span>
           <span class="flex items-center gap-1"><i class="fa fa-language"></i> {{ movie.language }}</span>
         </div>
-        {% comment %} Buttons: Like & Add to List {% endcomment %}
+        {% comment %}Buttons: Like & Add to List{% endcomment %}
         <div class="flex items-center gap-4 mb-6">
-          <button id="like" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition">👍 <span>Like</span></button>
+          <button id="like" onclick="likeBtn(this, {{ movie.id }}, '{% url 'like' %}')" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition">
+            👍 <span>
+              {% if like %}
+                Liked
+              {% else %}
+                Like
+              {% endif %}
+            </span>
+          </button>
           <button id="my-list" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition">➕ <span>Add to My List</span></button>
         </div>
 
@@ -40,16 +52,10 @@
     <div class="flex flex-wrap gap-4">
       {% for movie in similar_movies %}
         {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
-        {% include 'components/movie_card.html' %}
       {% endfor %}
     </div>
   </section>
+{% endblock %}
+{% block js %}
+  <script src="{% static 'js/watch.js' %}"></script>
 {% endblock %}

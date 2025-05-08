@@ -10,4 +10,5 @@ urlpatterns = [
     path("my-list/", views.MyListMovieListView.as_view(), name="my_list"),
     path("watch-history/", views.WatchHistoryMovieListView.as_view(), name="watch_history"),
     path("", views.SearchMovieListView.as_view(), name="search"),
+    path("like/", views.LikeMovie.as_view(), name="like"),
 ]
