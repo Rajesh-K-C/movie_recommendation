@@ -55,6 +55,12 @@ class Movie(models.Model):
         if os.path.isfile(self.poster.path):
             os.remove(self.poster.path)
         super().delete(*args, **kwargs)
+    
+    @property
+    def duration_formatted(self):
+        hours = self.duration // 60
+        mins = self.duration % 60
+        return f"{hours}h {mins}m"
 
     def __str__(self):
         return self.title
