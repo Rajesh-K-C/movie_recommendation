@@ -31,7 +31,7 @@ class Movie(models.Model):
     description = models.TextField(blank=True)
     total_views = models.PositiveIntegerField(default=0)
     total_likes = models.PositiveIntegerField(default=0)
-    url = models.URLField(unique=True)
+    youtube_id = models.CharField(max_length=20, unique=True, null=True)
     poster = models.ImageField(upload_to='posters/')
     duration = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
