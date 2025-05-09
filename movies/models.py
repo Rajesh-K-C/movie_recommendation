@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 import os
+from django.utils import timezone
+import datetime
 
 class Language(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -61,6 +63,10 @@ class Movie(models.Model):
         hours = self.duration // 60
         mins = self.duration % 60
         return f"{hours}h {mins}m"
+    
+    def was_published_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
     def __str__(self):
         return self.title
@@ -90,6 +96,11 @@ class View(models.Model):
             models.Index(fields=["movie", "created_at"]),
         ]
 
+    def save(self,*args, **kwargs):
+        print(self.movie)
+        Movie.objects.filter(pk=self.movie.id).update(total_views=models.F('total_views') + 1)
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.user} watched {self.movie} from {self.user_ip}"
 
@@ -105,7 +116,14 @@ class Like(models.Model):
         indexes = [
             models.Index(fields=["movie", "created_at"])
         ]
-
+    def save(self,*args, **kwargs):
+        Movie.objects.filter(pk=self.movie.id).update(total_likes=models.F('total_likes') + 1)
+        return super().save(*args, **kwargs)
+    
+    def delete(self,*args, **kwargs):
+        Movie.objects.filter(pk=self.movie.id).update(total_likes=models.F('total_likes') - 1)
+        return super().save(*args, **kwargs)
+    
     def __str__(self):
         return f"{self.user} liked {self.movie} at {self.created_at}"
 
