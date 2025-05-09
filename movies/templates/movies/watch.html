@@ -9,7 +9,7 @@
 {% block content %}
   <section class="max-w-7xl mx-auto px-4 py-6">
     <div class="aspect-w-16 aspect-h-9 w-full aspect-video mb-6">
-      <iframe class="aspect-video w-full" src="https://www.youtube.com/embed/{{ movie.youtube_id }}?enablejsapi=1" data-video-id="{{ movie.youtube_id }}" title="{{ movie.title }}" frameborder="0" allowfullscreen></iframe>
+      <iframe class="aspect-video w-full" src="https://www.youtube.com/embed/{{ movie.youtube_id }}?enablejsapi=1" data-video-id="{{ movie.youtube_id }}" data-movie="{{ movie.id }}" title="{{ movie.title }}" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-8">
@@ -19,6 +19,8 @@
         <div class="flex items-center gap-4 text-gray-400 text-sm mb-4">
           <span class="flex items-center gap-1"><i class="fa fa-clock"></i> {{ movie.duration_formatted }}</span>
           <span class="flex items-center gap-1"><i class="fa fa-language"></i> {{ movie.language }}</span>
+          <span class="flex items-center gap-1"><i class="fa fa-eye"></i> {{ movie.total_views }}</span>
+          <span class="flex items-center gap-1"><i class="fa-solid fa-thumbs-up"></i> {{ movie.total_likes }}</span>
         </div>
         {% comment %}Buttons: Like & Add to List{% endcomment %}
         <div class="flex items-center gap-4 mb-6">
