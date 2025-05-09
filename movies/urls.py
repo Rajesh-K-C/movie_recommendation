@@ -11,4 +11,5 @@ urlpatterns = [
     path("watch-history/", views.WatchHistoryMovieListView.as_view(), name="watch_history"),
     path("", views.SearchMovieListView.as_view(), name="search"),
     path("like/", views.LikeMovie.as_view(), name="like"),
+    path("update-history/", views.UpdateHistory.as_view(), name="update_history"),
 ]
