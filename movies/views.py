@@ -6,7 +6,7 @@ from django.http import JsonResponse
 import json
 from datetime import timedelta
 from django.utils import timezone
-from django.db.models import F
+from django.db.models import F, Count, Q, FloatField, ExpressionWrapper
 
 class WatchView(LoginRequiredMixin, generic.DetailView):
     model = Movie
@@ -22,8 +22,22 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
 
 class PopularMoviesView(LoginRequiredMixin, generic.ListView):
     model = Movie
-    queryset = Movie.objects.prefetch_related("genres", "language").order_by("-pk")
     template_name = "movies/movie_list.html"
+
+    def get_queryset(self):
+        last_7_days = timezone.now() - timedelta(days=7)
+
+        qs = Movie.objects.prefetch_related("genres", "language").annotate(
+            recent_likes=Count("likes", filter=Q(likes__created_at__gte=last_7_days)),
+            recent_views=Count("views", filter=Q(views__created_at__gte=last_7_days))
+        ).annotate(
+            popularity=ExpressionWrapper(
+                F("recent_likes") / (F("recent_views") + 1.0),
+                output_field=FloatField()
+            )
+        )
+        qs = qs.filter(popularity__gt=0).order_by("-popularity", "-recent_likes", "-recent_views", "-pk")
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
