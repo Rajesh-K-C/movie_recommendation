@@ -120,10 +120,6 @@ class Like(models.Model):
         Movie.objects.filter(pk=self.movie.id).update(total_likes=models.F('total_likes') + 1)
         return super().save(*args, **kwargs)
     
-    def delete(self,*args, **kwargs):
-        Movie.objects.filter(pk=self.movie.id).update(total_likes=models.F('total_likes') - 1)
-        return super().save(*args, **kwargs)
-    
     def __str__(self):
         return f"{self.user} liked {self.movie} at {self.created_at}"
 

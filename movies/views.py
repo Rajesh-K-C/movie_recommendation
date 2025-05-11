@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 from datetime import timedelta
 from django.utils import timezone
+from django.db.models import F
 
 class WatchView(LoginRequiredMixin, generic.DetailView):
     model = Movie
@@ -128,6 +129,7 @@ class LikeMovie(View):
                 return JsonResponse({"error": "Movie not found"}, status=404)
             like, created = Like.objects.get_or_create(user=user, movie=movie)
             if not created:
+                Movie.objects.filter(pk=like.movie.id).update(total_likes=F('total_likes') - 1)
                 like.delete()
                 return JsonResponse({"status": False, "id": id})
             else:

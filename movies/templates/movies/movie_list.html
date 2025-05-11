@@ -10,6 +10,8 @@
     <div class="flex flex-wrap gap-4">
       {% for movie in movie_list %}
         {% include 'components/movie_card.html' %}
+      {% empty %}
+        <p>Movie not Found!</p>
       {% endfor %}
     </div>
   </section>
