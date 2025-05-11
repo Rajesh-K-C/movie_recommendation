@@ -33,7 +33,13 @@
               {% endif %}
             </span>
           </button>
-          <button id="my-list" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition">➕ <span>Add to My List</span></button>
+          <button id="my-list" onclick="addToMyList(this, {{ movie.id }}, '{% url 'toggle_my_list' %}')" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition"><span>
+            {% if my_list %}
+            ✔️
+            {% else %}
+            ➕
+            {% endif %}
+          </span>My List</button>
         </div>
 
         {% comment %}Genres{% endcomment %}

@@ -16,8 +16,12 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context["similar_movies"] = Movie.objects.exclude(id=self.object.id)[:14]
         context["like"] = False
+        context["my_list"] = False
         if Like.objects.filter(user=self.request.user, movie=context["movie"]):
             context['like']=True
+        if MyList.objects.filter(user=self.request.user, movie=context["movie"]):
+            context['my_list']=True
+
         return context
 
 class PopularMoviesView(generic.ListView):
@@ -182,5 +186,26 @@ class UpdateHistory(View):
                     ViewModel.objects.create(user=user, movie=movie, user_ip=ip)
                     watch.objects.create(user=user, movie=movie)
             return JsonResponse({"status": True, "id": id})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid data"}, status=400)
+  
+class ToggleMyListView(LoginRequiredMixin, View):
+    def post(self, request):
+        user = request.user
+        try:
+            data = json.loads(request.body)
+            id = data["id"]
+            if not isinstance(id, int):
+                return JsonResponse({"error": "Invalid movie ID"}, status=400)
+            try:
+                movie = Movie.objects.get(pk=id)
+            except Movie.DoesNotExist:
+                return JsonResponse({"error": "Movie not found"}, status=404)
+            my_list, created = MyList.objects.get_or_create(user=user, movie=movie)
+            if not created:
+                my_list.delete()
+                return JsonResponse({"status": False, "id": id})
+            else:
+                return JsonResponse({"status": True, "id": id})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid data"}, status=400)
