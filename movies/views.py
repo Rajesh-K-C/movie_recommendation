@@ -70,7 +70,11 @@ class MovieByGenreView(generic.ListView):
 class NewMovieListView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
-    queryset = Movie.objects.order_by("-pk")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        last_7_days = timezone.now() - timedelta(days=7)
+        return  qs.prefetch_related("language", "genres").filter(created_at__gt=last_7_days).order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
