@@ -4,7 +4,6 @@ from django.contrib.auth import login
 from .forms import UserRegistrationForm, ProfileUpdateForm, CustomPasswordChangeForm
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,7 +12,6 @@ from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Count, Q, F, FloatField, ExpressionWrapper
 
-@login_required
 def home(request):
     last_7_days = timezone.now() - timedelta(days=7)
     recent_movies = Movie.objects.prefetch_related("language", "genres").filter(created_at__gt=last_7_days).order_by("-created_at")[:8]

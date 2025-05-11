@@ -24,6 +24,9 @@
     {% block navbar %}
       {% include 'includes/navbar.html' %}
       <script src="{% static 'js/navbar.js' %}"></script>
+      {% if user.is_authenticated %}
+        <script src="{% static 'js/navbarProfile.js' %}"></script>
+      {% endif %}
     {% endblock %}
     <main class="min-h-dvh w-full bg-secondary">
       {% block content %}

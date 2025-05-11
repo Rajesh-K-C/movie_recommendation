@@ -20,7 +20,7 @@ class WatchView(LoginRequiredMixin, generic.DetailView):
             context['like']=True
         return context
 
-class PopularMoviesView(LoginRequiredMixin, generic.ListView):
+class PopularMoviesView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
 
@@ -44,7 +44,7 @@ class PopularMoviesView(LoginRequiredMixin, generic.ListView):
         context["title"] = "Popular Movies"
         return context
 
-class MovieGenreView(LoginRequiredMixin, generic.ListView):
+class MovieGenreView(generic.ListView):
     model = Genre
     queryset = Genre.objects.all().order_by("name")
     template_name = "movies/movie_genre_list.html"
@@ -54,7 +54,7 @@ class MovieGenreView(LoginRequiredMixin, generic.ListView):
         context["genre_list"] = [movie for movie in context["genre_list"] if movie.total_movies > 0]
         return context
 
-class MovieByGenreView(LoginRequiredMixin, generic.ListView):
+class MovieByGenreView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
 
@@ -67,7 +67,7 @@ class MovieByGenreView(LoginRequiredMixin, generic.ListView):
         context["title"] = f"{self.genre.name} Movies"
         return context
 
-class NewMovieListView(LoginRequiredMixin, generic.ListView):
+class NewMovieListView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
     queryset = Movie.objects.order_by("-pk")
@@ -107,7 +107,7 @@ class WatchHistoryMovieListView(LoginRequiredMixin, generic.ListView):
         context["movie_list"] = [mylist.movie for mylist in context["object_list"]]
         return context
 
-class SearchMovieListView(LoginRequiredMixin, generic.ListView):
+class SearchMovieListView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
 
