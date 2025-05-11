@@ -91,7 +91,7 @@ class MyListMovieListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         qs =  super().get_queryset()
-        qs = qs.filter(user=self.request.user)
+        qs = qs.filter(user=self.request.user).order_by("-created_at")
         return qs
 
     def get_context_data(self, **kwargs):
