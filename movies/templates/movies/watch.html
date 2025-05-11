@@ -20,26 +20,25 @@
           <span class="flex items-center gap-1"><i class="fa fa-clock"></i> {{ movie.duration_formatted }}</span>
           <span class="flex items-center gap-1"><i class="fa fa-language"></i> {{ movie.language }}</span>
           <span class="flex items-center gap-1"><i class="fa fa-eye"></i> {{ movie.total_views }}</span>
-          <span class="flex items-center gap-1"><i class="fa-solid fa-thumbs-up"></i> {{ movie.total_likes }}</span>
-        </div>
-        {% comment %}Buttons: Like & Add to List{% endcomment %}
-        <div class="flex items-center gap-4 mb-6">
-          <button id="like" onclick="likeBtn(this, {{ movie.id }}, '{% url 'like' %}')" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition">
-            👍 <span>
+          <span class="flex items-center gap-1 cursor-pointer
               {% if like %}
-                Liked
+                text-blue-700
+              {% endif %}" onclick="likeBtn(this, {{ movie.id }}, '{% url 'like' %}')">
+            <i class="fa-solid fa-thumbs-up"></i>
+            <span>{{ movie.total_likes }}</span>
+          </span>
+        </div>
+        {% comment %}Button: Add to List{% endcomment %}
+        <div class="flex items-center gap-4 mb-6">
+          <button id="my-list" onclick="addToMyList(this, {{ movie.id }}, '{% url 'toggle_my_list' %}')" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition cursor-pointer">
+            <span>
+              {% if my_list %}
+                ✔️
               {% else %}
-                Like
+                ➕
               {% endif %}
-            </span>
+            </span>My List
           </button>
-          <button id="my-list" onclick="addToMyList(this, {{ movie.id }}, '{% url 'toggle_my_list' %}')" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition"><span>
-            {% if my_list %}
-            ✔️
-            {% else %}
-            ➕
-            {% endif %}
-          </span>My List</button>
         </div>
 
         {% comment %}Genres{% endcomment %}

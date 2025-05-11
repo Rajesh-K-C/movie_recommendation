@@ -12,12 +12,13 @@ async function likeBtn(e, id, url) {
                 body: JSON.stringify({ id })
             });
             const responseData = await response.json();
-            if (response.status == 200) {
+            if (response.status == 200 && e.lastElementChild) {
+                e.classList.toggle("text-blue-700");
                 if (responseData.status) {
-                    e.lastElementChild.textContent = "Liked";
+                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "") + 1).toString();
                 }
                 else {
-                    e.lastElementChild.textContent = "Like";
+                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "") - 1).toString();
                 }
             }
             else {
