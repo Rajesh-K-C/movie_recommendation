@@ -66,7 +66,7 @@ class Movie(models.Model):
     
     def was_published_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+        return now - datetime.timedelta(days=7) <= self.created_at <= now
 
     def __str__(self):
         return self.title
@@ -136,7 +136,7 @@ class MyList(models.Model):
         return f"{self.user} added {self.movie} at {self.created_at}"
     
 class MovieTag(models.Model):
-    movie_id = models.OneToOneField(Movie, on_delete=models.CASCADE, related_name="movie")
+    movie = models.OneToOneField(Movie, on_delete=models.CASCADE, related_name="movie")
     tags = models.TextField()
 
     class Meta:
@@ -144,4 +144,4 @@ class MovieTag(models.Model):
         verbose_name_plural = "movie_tags"
     
     def __str__(self):
-        return f"{self.movie_id} {self.tags}"
+        return f"{self.movie} {self.tags}"

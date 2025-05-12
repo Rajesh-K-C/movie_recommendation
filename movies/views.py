@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic, View
 from movies.models import Movie, Genre, MyList, WatchHistory, Like, View as ViewModel
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,6 +7,7 @@ import json
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import F, Count, Q, FloatField, ExpressionWrapper
+import re
 
 class WatchView(LoginRequiredMixin, generic.DetailView):
     model = Movie
@@ -123,16 +124,26 @@ class SearchMovieListView(generic.ListView):
         self.q = self.request.GET.get("search", "").strip()
         qs = super().get_queryset()
         if self.q:
-            return qs.filter(title__icontains=self.q)
-        return qs
+            # Tokenize and normalize the query
+            tokens = re.findall(r'\w+', self.q.lower())
+            
+            # Build the search query
+            search_filter = Q()
+            for token in tokens:
+                search_filter |= (
+                    Q(title__icontains=token) |
+                    Q(language__name__icontains=token) | 
+                    Q(genres__name__icontains=token)
+                )
+            return qs.filter(search_filter).distinct()
+        return None
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(self.q)
         if self.q:
             context["title"] = f"Search: {self.q}"
         else:
-            context["title"] = "Search"
+            context["title"] = "Search: Invalid Search"
         return context
     
 class LikeMovie(View):
