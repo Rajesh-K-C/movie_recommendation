@@ -11,6 +11,7 @@ from django.contrib.auth.views import PasswordChangeView
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Count, Q, F, FloatField, ExpressionWrapper
+from django.contrib.auth.views import LoginView
 
 def home(request):
     last_7_days = timezone.now() - timedelta(days=7)
@@ -44,9 +45,6 @@ def home(request):
         "popular_more":popular_more,
     }
     return render(request, "core/home.html", context)
-
-from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
 
 class CustomLoginView(LoginView):
     template_name = 'core/login.html'

@@ -134,3 +134,14 @@ class MyList(models.Model):
 
     def __str__(self):
         return f"{self.user} added {self.movie} at {self.created_at}"
+    
+class MovieTag(models.Model):
+    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="movies")
+    tags = models.TextField()
+
+    class Meta:
+        db_table = "movie_tags"
+        verbose_name_plural = "movie_tags"
+    
+    def __str__(self):
+        return f"{self.movie_id} {self.tags}"
