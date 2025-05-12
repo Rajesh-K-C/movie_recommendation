@@ -136,7 +136,7 @@ class MyList(models.Model):
         return f"{self.user} added {self.movie} at {self.created_at}"
     
 class MovieTag(models.Model):
-    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="movies")
+    movie_id = models.OneToOneField(Movie, on_delete=models.CASCADE, related_name="movie")
     tags = models.TextField()
 
     class Meta:
