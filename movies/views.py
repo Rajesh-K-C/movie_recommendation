@@ -116,13 +116,14 @@ class WatchHistoryMovieListView(LoginRequiredMixin, generic.ListView):
         context["movie_list"] = [mylist.movie for mylist in context["object_list"]]
         return context
 
-class SearchMovieListView(generic.ListView):
+class MovieListView(generic.ListView):
     model = Movie
     template_name = "movies/movie_list.html"
 
     def get_queryset(self):
         self.q = self.request.GET.get("search", "").strip()
         qs = super().get_queryset()
+        qs = qs.prefetch_related("language", "genres")
         if self.q:
             # Tokenize and normalize the query
             tokens = re.findall(r'\w+', self.q.lower())
@@ -136,14 +137,14 @@ class SearchMovieListView(generic.ListView):
                     Q(genres__name__icontains=token)
                 )
             return qs.filter(search_filter).distinct()
-        return None
+        return qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.q:
             context["title"] = f"Search: {self.q}"
         else:
-            context["title"] = "Search: Invalid Search"
+            context["title"] = "Movies"
         return context
     
 class LikeMovie(View):
