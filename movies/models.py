@@ -40,6 +40,7 @@ class Movie(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     genres = models.ManyToManyField(Genre, related_name='movies')
     language = models.ForeignKey(Language, related_name='movies', on_delete=models.CASCADE)
+    tags = models.TextField(blank=True)
 
     class Meta:
         db_table = 'movies'
@@ -134,14 +135,3 @@ class MyList(models.Model):
 
     def __str__(self):
         return f"{self.user} added {self.movie} at {self.created_at}"
-    
-class MovieTag(models.Model):
-    movie = models.OneToOneField(Movie, on_delete=models.CASCADE, related_name="movie")
-    tags = models.TextField()
-
-    class Meta:
-        db_table = "movie_tags"
-        verbose_name_plural = "movie_tags"
-    
-    def __str__(self):
-        return f"{self.movie} {self.tags}"
