@@ -27,9 +27,7 @@ async function likeBtn(e: HTMLButtonElement, id: number, url: string) {
     }
 }
 
-const iframe = document.querySelector('iframe') as HTMLIFrameElement;
-iframe.onload = async () => {
-    let id: number = Number.parseInt(iframe.getAttribute("data-movie") as string);
+async function updateHistory(id: number) {
     try {
         const response = await fetch("/movies/update-history/", {
             method: 'POST',
@@ -40,9 +38,11 @@ iframe.onload = async () => {
             body: JSON.stringify({ id })
         });
         const responseData = await response.json();
-        console.log(responseData);
-    } catch (error) { }
-};
+        return responseData.status;
+    } catch (error) {
+        return false;
+    }
+}
 
 async function addToMyList(e: HTMLButtonElement, id: number, url: string) {
     if (e.lastElementChild) {

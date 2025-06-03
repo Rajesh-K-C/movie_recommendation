@@ -7,12 +7,12 @@
   <meta name="csrf-token" content="{{ csrf_token }}" />
 {% endblock %}
 {% block content %}
-  <section class="max-w-7xl mx-auto px-4 py-6">
+  <section class="max-w-7xl mx-auto px-4">
     <div class="aspect-w-16 aspect-h-9 w-full aspect-video mb-6">
-      <iframe class="aspect-video w-full" src="https://www.youtube.com/embed/{{ movie.youtube_id }}?enablejsapi=1" data-video-id="{{ movie.youtube_id }}" data-movie="{{ movie.id }}" title="{{ movie.title }}" frameborder="0" allowfullscreen></iframe>
+      <div id="player"></div>
     </div>
-
-    <div class="flex flex-col lg:flex-row gap-8">
+    <div id="loading" class="text-center">Loading...</div>
+    <div id="content" class="hidden flex-col lg:flex-row gap-8">
       <div class="flex-1">
         <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
 
@@ -65,4 +65,50 @@
 {% endblock %}
 {% block js %}
   <script src="{% static 'js/watch.js' %}"></script>
+  <script>
+    let tag = document.createElement('script')
+    
+    tag.src = 'https://www.youtube.com/iframe_api'
+    let firstScriptTag = document.getElementsByTagName('script')[4]
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+    
+    let player
+    
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '100%',
+        width: '100%',
+        videoId: '{{ movie.youtube_id }}',
+        playerVars: {
+          playsinline: 1
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      })
+    }
+    
+    function onPlayerReady(event) {
+      loading.classList.add('hidden')
+      content.classList.remove('hidden')
+      content.classList.add('flex')
+      event.target.playVideo()
+    }
+    let done = false
+    let counter
+    function onPlayerStateChange(event) {
+      if (!done) {
+        if (event.data == YT.PlayerState.PLAYING) {
+          counter = setInterval(async () => {
+            if (await updateHistory({{ movie.id }})) {
+              done = true
+            }
+          }, 10000)
+        } else {
+          if (counter) clearInterval(counter)
+        }
+      }
+    }
+  </script>
 {% endblock %}
