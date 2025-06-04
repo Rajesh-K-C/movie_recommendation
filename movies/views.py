@@ -161,13 +161,17 @@ class LikeMovie(View):
                 movie = Movie.objects.get(pk=id)
             except Movie.DoesNotExist:
                 return JsonResponse({"error": "Movie not found"}, status=404)
-            like, created = Like.objects.get_or_create(user=user, movie=movie)
-            if not created:
-                Movie.objects.filter(pk=like.movie.id).update(total_likes=F('total_likes') - 1)
-                like.delete()
-                return JsonResponse({"status": False, "id": id})
+            history = WatchHistory.objects.filter(user=user, movie=movie).first()
+            if history:
+                like, created = Like.objects.get_or_create(user=user, movie=movie)
+                if not created:
+                    Movie.objects.filter(pk=like.movie.id).update(total_likes=F('total_likes') - 1)
+                    like.delete()
+                    return JsonResponse({"status": False, "id": id})
+                else:
+                    return JsonResponse({"status": True, "id": id})
             else:
-                return JsonResponse({"status": True, "id": id})
+                return JsonResponse({"error": "Movie has not been watched."}, status=400)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid data"}, status=400)
 

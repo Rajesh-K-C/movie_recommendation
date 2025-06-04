@@ -15,10 +15,10 @@ async function likeBtn(e, id, url) {
             if (response.status == 200 && e.lastElementChild) {
                 e.classList.toggle("text-blue-700");
                 if (responseData.status) {
-                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "") + 1).toString();
+                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "0") + 1).toString();
                 }
                 else {
-                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "") - 1).toString();
+                    e.lastElementChild.textContent = (Number.parseInt(e.lastElementChild.textContent || "0") - 1).toString();
                 }
             }
             else {
